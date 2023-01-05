@@ -6,8 +6,8 @@ const Followers = () => {
   const { followers } = useGlobalContext();
 
   return <Wrapper>
-    <div className='followers'>
-      {followers.map((follower, index) => {
+   <div className='followers'>
+      { followers.map((follower, index) => {
         const { avatar_url: img, html_url, login } = follower;
         return <article key={index}>
           <img src={img} alt={login} />
@@ -16,7 +16,7 @@ const Followers = () => {
             <a href={html_url}>{html_url}</a>
           </div>
         </article>
-      })}
+      }) }
     </div>
   </Wrapper>
 };

@@ -1,4 +1,4 @@
-export default {
+const mockUser =  {
   "login": "neet1313",
   "id": 47270603,
   "node_id": "MDQ6VXNlcjQ3MjcwNjAz",
@@ -32,3 +32,5 @@ export default {
   "created_at": "2019-02-02T09:44:55Z",
   "updated_at": "2022-12-21T20:45:06Z"
 };
+
+export default mockUser;

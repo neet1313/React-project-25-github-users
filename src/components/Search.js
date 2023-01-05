@@ -23,7 +23,7 @@ const {setQuery} =  useGlobalContext();
   <form onSubmit = {submitHandler}>
   <div className='form-control'>
     <MdSearch />
-    <input type='text' placeholder='Enter github user' value={user} onChange={inputChangeHangler} />
+    <input type='text' placeholder='Enter github user name e.g. wesbos' value={user} onChange={inputChangeHangler} />
     <button type = 'submit'>search</button>
   </div>
   </form>  
