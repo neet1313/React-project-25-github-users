@@ -4,9 +4,8 @@ import mockRepos from './mockData.js/mockRepos';
 import mockFollowers from './mockData.js/mockFollowers';
 import axios from 'axios';
 
-// const rootUrl = 'https://api.github.com';
 const userUrl = 'https://api.github.com/users/';
-const GithubContext = React.createContext();
+const GithubContext = React.createContext()
 
 const GithubProvider = ({ children }) => {
     const [githubUser, setGithubUser] = useState(mockUser);
@@ -15,23 +14,22 @@ const GithubProvider = ({ children }) => {
     const [query, setQuery] = useState('neet1313');
     const [loading, setLoading] = useState(true);
 
-    const fetchUsers = async(url) => { 
+    const fetchUsers = async (url) => {
         setLoading(true);
         try {
             await Promise.allSettled([
-                axios.get(url).then(({data})=> setGithubUser(data)),
-                axios.get(`${url}/followers`).then(({data})=>setFollowers(data)),
-                axios.get(`${url}/repos?per_page=100`).then(({data})=>setRepos(data))
+                axios.get(url).then(({ data }) => setGithubUser(data)),
+                axios.get(`${url}/followers`).then(({ data }) => setFollowers(data)),
+                axios.get(`${url}/repos?per_page=100`).then(({ data }) => setRepos(data))
             ]);
 
-        setLoading(false);
-
+            setLoading(false);
         } catch (error) {
             console.log(error.message)
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchUsers(`${userUrl}${query}`);
     }, [query]);
 

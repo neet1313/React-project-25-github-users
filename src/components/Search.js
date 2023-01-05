@@ -1,37 +1,33 @@
-import React, {useState} from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { MdSearch } from 'react-icons/md';
 import { useGlobalContext } from '../context/context';
 const Search = () => {
-  const [user, setUser] = useState('');
-const {setQuery} =  useGlobalContext();
-  const submitHandler = (event) => { 
+  const inputRef = useRef('')
+  const { setQuery } = useGlobalContext();
+
+  const submitHandler = (event) => {
     event.preventDefault();
-
-  if(user){
-    setQuery(user);
-    setUser('');
+    if (inputRef) {
+      setQuery(inputRef.current.value);
+    }
   }
-}
 
-  const inputChangeHangler = (event) => { 
-    setUser(event.target.value);
-   }
   return <section className='section'>
-  <Wrapper className='section-center'>
+    <Wrapper className='section-center'>
 
-  <form onSubmit = {submitHandler}>
-  <div className='form-control'>
-    <MdSearch />
-    <input type='text' placeholder='Enter github user name e.g. wesbos' value={user} onChange={inputChangeHangler} />
-    <button type = 'submit'>search</button>
-  </div>
-  </form>  
-  <h3>Requests: 60 / 60</h3>
-  </Wrapper>
+      <form onSubmit={submitHandler}>
+        <div className='form-control'>
+          <MdSearch />
+          <input type='text' placeholder='Enter github user name e.g. wesbos' ref={inputRef} />
+          <button type='submit'>search</button>
+        </div>
+      </form>
+      <h3>Requests: 60 / 60</h3>
+    </Wrapper>
 
   </section>
-  
+
 };
 
 const Wrapper = styled.div`
