@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { MdSearch } from 'react-icons/md';
 import { useGlobalContext } from '../context/context';
 const Search = () => {
-  const inputRef = useRef('')
-  const { setQuery } = useGlobalContext();
+  const inputRef = useRef('');
+  const { setQuery, remainingRequest: { remaining, limit } } = useGlobalContext();
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -20,10 +20,10 @@ const Search = () => {
         <div className='form-control'>
           <MdSearch />
           <input type='text' placeholder='Enter github user name e.g. wesbos' ref={inputRef} />
-          <button type='submit'>search</button>
+          <button type='submit' disabled={!remaining}>search</button>
         </div>
       </form>
-      <h3>Requests: 60 / 60</h3>
+      {remaining ? <h3>Requests: {remaining} / {limit}</h3> : <h3>Request Limit Exceeded</h3>}
     </Wrapper>
 
   </section>
@@ -71,10 +71,14 @@ const Wrapper = styled.div`
       color: var(--clr-white);
       transition: var(--transition);
       cursor: pointer;
-      &:hover {
+      &:hover:enabled {
         background: var(--clr-primary-8);
         color: var(--clr-primary-1);
       }
+    }
+
+    button: disabled{
+      cursor: not-allowed;
     }
 
     svg {
