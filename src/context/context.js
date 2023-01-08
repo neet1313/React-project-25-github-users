@@ -15,18 +15,20 @@ const GithubProvider = ({ children }) => {
     const [query, setQuery] = useState('neet1313');
     const [loading, setLoading] = useState(true);
     const [remainingRequest, setRemainingRequest] = useState({});
-    //Errors 
+    const [error, setError] = useState(false);
 
     const fetchUsers = async (url) => {
         setLoading(true);
         try {
-            let [, , , remainingReq] = await Promise.allSettled([
+            let [userQuery, followerQuery, reposQuery, remainingReq] = await Promise.allSettled([
                 axios(`${url}/users/${query}`).then(({ data }) => setGithubUser(data)),
                 axios(`${url}/users/${query}/followers`).then(({ data }) => setFollowers(data)),
                 axios(`${url}/users/${query}/repos?per_page=100`).then(({ data }) => setRepos(data)),
                 axios(`${url}/rate_limit`)
             ]);
 
+            //Set Error True or False
+            (userQuery.status === 'rejected' && followerQuery.status === 'rejected' && reposQuery.status === 'rejected') && setError(true);
 
             setRemainingRequest(remainingReq.value.data.rate);
             setLoading(false);
@@ -39,7 +41,8 @@ const GithubProvider = ({ children }) => {
         fetchUsers(apiRootEndpoint);
     }, [query]);
 
-    return <GithubContext.Provider value={{ githubUser, repos, followers, setQuery, remainingRequest }}>{children}</GithubContext.Provider>
+
+    return <GithubContext.Provider value={{ githubUser, repos, followers, setQuery, remainingRequest, error, setError }}>{children}</GithubContext.Provider>
 }
 
 //Custom Hook

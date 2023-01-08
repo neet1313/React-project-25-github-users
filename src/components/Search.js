@@ -4,7 +4,7 @@ import { MdSearch } from 'react-icons/md';
 import { useGlobalContext } from '../context/context';
 const Search = () => {
   const inputRef = useRef('');
-  const { setQuery, remainingRequest: { remaining, limit } } = useGlobalContext();
+  const { setQuery, error, setError, remainingRequest: { remaining, limit } } = useGlobalContext();
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -13,13 +13,31 @@ const Search = () => {
     }
   }
 
+  const ErrorHandler = (event) => {
+    if (error && event.key === "Backspace") {
+      setError(false);
+    } else if (error) {
+      setError(false);
+    }
+  }
+  const blurHandler = () => {
+    if (error) {
+      setError(true);
+    }
+  }
+
+
   return <section className='section'>
     <Wrapper className='section-center'>
+
+      {error && (<ErrorWrapper>
+        <p>User Not Found</p>
+      </ErrorWrapper>)}
 
       <form onSubmit={submitHandler}>
         <div className='form-control'>
           <MdSearch />
-          <input type='text' placeholder='Enter github user name e.g. wesbos' ref={inputRef} />
+          <input type='text' placeholder='Enter github user name e.g. wesbos' ref={inputRef} onFocus={ErrorHandler} onBlur={blurHandler} onKeyDown={ErrorHandler} />
           <button type='submit' disabled={!remaining}>search</button>
         </div>
       </form>
