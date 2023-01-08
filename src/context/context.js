@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import mockUser from './mockData.js/mockUser';
 import mockRepos from './mockData.js/mockRepos';
 import mockFollowers from './mockData.js/mockFollowers';
@@ -17,7 +17,7 @@ const GithubProvider = ({ children }) => {
     const [remainingRequest, setRemainingRequest] = useState({});
     const [error, setError] = useState(false);
 
-    const fetchUsers = async (url) => {
+    const fetchUsers = useCallback(async (url) => {
         setLoading(true);
         try {
             let [userQuery, followerQuery, reposQuery, remainingReq] = await Promise.allSettled([
@@ -31,18 +31,28 @@ const GithubProvider = ({ children }) => {
             (userQuery.status === 'rejected' && followerQuery.status === 'rejected' && reposQuery.status === 'rejected') && setError(true);
 
             setRemainingRequest(remainingReq.value.data.rate);
-            setLoading(false);
         } catch (error) {
             console.log(error.message);
         }
-    }
+
+        setLoading(false);
+    }, [query]);
 
     useEffect(() => {
         fetchUsers(apiRootEndpoint);
-    }, [query]);
+    }, [query, fetchUsers]);
 
 
-    return <GithubContext.Provider value={{ githubUser, repos, followers, setQuery, remainingRequest, error, setError }}>{children}</GithubContext.Provider>
+    return <GithubContext.Provider value={{
+        githubUser,
+        repos,
+        followers,
+        setQuery,
+        remainingRequest,
+        error,
+        setError,
+        loading
+    }}>{children}</GithubContext.Provider>
 }
 
 //Custom Hook

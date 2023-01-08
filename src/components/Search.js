@@ -4,7 +4,7 @@ import { MdSearch } from 'react-icons/md';
 import { useGlobalContext } from '../context/context';
 const Search = () => {
   const inputRef = useRef('');
-  const { setQuery, error, setError, remainingRequest: { remaining, limit } } = useGlobalContext();
+  const { setQuery, error, setError, loading, remainingRequest: { remaining, limit } } = useGlobalContext();
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -38,7 +38,7 @@ const Search = () => {
         <div className='form-control'>
           <MdSearch />
           <input type='text' placeholder='Enter github user name e.g. wesbos' ref={inputRef} onFocus={ErrorHandler} onBlur={blurHandler} onKeyDown={ErrorHandler} />
-          <button type='submit' disabled={!remaining}>search</button>
+          {!loading && <button type='submit' disabled={!remaining}>search</button>}
         </div>
       </form>
       {remaining ? <h3>Requests: {remaining} / {limit}</h3> : <h3>Request Limit Exceeded</h3>}
