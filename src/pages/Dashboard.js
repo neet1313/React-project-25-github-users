@@ -12,7 +12,7 @@ const Dashboard = () => {
       {!loading && <Info />}
       {!loading && <User />}
       {!loading && <Repos />}
-      {loading && <img src={loadingImage} alt="Loading Image" className='loading-img' />}
+      {loading && <img src={loadingImage} alt="" className='loading-img' />}
     </main>
   );
 };
