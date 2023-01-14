@@ -38,10 +38,10 @@ const Search = () => {
         <div className='form-control'>
           <MdSearch />
           <input type='text' placeholder='Enter github user name e.g. wesbos' ref={inputRef} onFocus={ErrorHandler} onBlur={blurHandler} onKeyDown={ErrorHandler} />
-          {!loading && <button type='submit' disabled={!remaining}>search</button>}
+          <button type='submit' disabled={!remaining || loading}>search</button>
         </div>
       </form>
-      {remaining ? <h3>Requests: {remaining} / {limit}</h3> : <h3>Request Limit Exceeded</h3>}
+      {remaining ? <h3>Requests: {remaining} / {limit}</h3> : <h3>--</h3>}
     </Wrapper>
 
   </section>
@@ -97,6 +97,7 @@ const Wrapper = styled.div`
 
     button: disabled{
       cursor: not-allowed;
+      background: var(--clr-primary-8);
     }
 
     svg {

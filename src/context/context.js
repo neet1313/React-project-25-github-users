@@ -25,9 +25,9 @@ const GithubProvider = ({ children }) => {
                 axios(`${url}/users/${query}/followers`).then(({ data }) => setFollowers(data)),
                 axios(`${url}/users/${query}/repos?per_page=100`).then(({ data }) => setRepos(data)),
                 axios(`${url}/rate_limit`)
-            ]);
+            ]).catch(err => console.log(err));
 
-            //Set Error True or False
+            //Set Error True or False for User validation
             (userQuery.status === 'rejected' && followerQuery.status === 'rejected' && reposQuery.status === 'rejected') && setError(true);
 
             setRemainingRequest(remainingReq.value.data.rate);
