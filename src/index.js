@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 
   <React.StrictMode>
-    <Auth0Provider domain="dev-m31cz5mlzr4w514x.us.auth0.com" clientId="UarLBFDhukuU2QvGyoszgqno7g8F6uYp" redirectUri={window.location.origin}>
+    <Auth0Provider domain="dev-m31cz5mlzr4w514x.us.auth0.com" clientId="UarLBFDhukuU2QvGyoszgqno7g8F6uYp" redirectUri={window.location.origin} cacheLocation="localstorage">
       <BrowserRouter>
         <GithubProvider>
           <App />

@@ -4,12 +4,14 @@ import { Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <Switch>
-      {/* Switch renders the first child route that matches */}
-      <Route path="/" exact={true} component={Dashboard} />
-      <Route path="/login" component={Login} />
-      <Route path='*' component={Error} />
-    </Switch>
+    <AuthWrapper>
+      <Switch>
+        {/* Switch renders the first child route that matches */}
+        <PrivateRoute path="/" exact={true} component={Dashboard} />
+        <Route path="/login" component={Login} />
+        <Route path='*' component={Error} />
+      </Switch>
+    </AuthWrapper>
   );
 }
 
